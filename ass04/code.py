@@ -43,8 +43,7 @@ t1 = time.time()
 kernel = numpy.array([[-1, -1, -1],
                       [-1,  4, -1],
                       [-1, -1, -1]])
-numgrid =  numpy.pad(numpy.array([[int(x == "@") for x in gridline] for gridline in grid]),(1,1))
-numgrid_res = numpy.copy(numgrid)
+numgrid =  numpy.array(numgrid)
 movablepapers2 = numpy.sum(numgrid)
 
 removed = True
@@ -67,4 +66,4 @@ print("Timing: Inputs = " + str(int((tr-ts)*10**6//1)) + " us;" +
       " Part 2 = " + str(int((t2-t1)*10**3//1)) + " ms;" +
       " Total time = " + str(int((t2-ts)*10**3//1)) + " ms")
 # average van 1 run is ongeveer
-# kost 1400 us, 65 ms, 4400 ms, 4500 ms
+# kost 1400 us, 65 ms, 3450 ms, 3550 ms
