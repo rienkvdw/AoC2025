@@ -1,0 +1,50 @@
+# assignment 4
+import math
+import copy
+import time
+import numpy
+import itertools
+import re
+
+# coordinate class van vorig jaar, hopelijk is het nuttig
+class Coordinate:
+    def __init__(self, coords):
+        self.x = coords[0]
+        self.y = coords[1]
+        self = (self.x,self.y)
+    def __str__(self):
+        return str((self.x,self.y))
+    def __repr__(self):
+        return str((self.x,self.y))
+
+ts = time.time()
+# uitlezen text bestandje
+with open('ass04/input.txt') as inputfile:    # input lezen en splitten in lines
+    inputstring = inputfile.read()
+    input = inputstring.splitlines()
+    grid = [list(line) for line in input]
+
+tr = time.time()
+# part 1
+numgrid = numpy.pad([[int(bool(x == "@")) for x in gridline] for gridline in grid], (1,1))
+movablepapers = 0
+for i in range(1,len(numgrid)-1):
+    for j in range(1,len(numgrid[i])-1):
+        if numgrid[i,j] == 1:
+            movablepapers += int(sum(sum(numgrid[i-1:i+2,j-1:j+2])) < 5)
+
+print("The amount of movable papers for part 1 is " + str(movablepapers)) # correcte waarde is 1516
+t1 = time.time()
+
+# part 2
+# ja dit is wat stroever, recursief meot het worden dus doe ik later
+
+# print("The sum of joltages for part 2 is " + str(sum())) # correcte waarde is 
+t2 = time.time()
+
+print("Timing: Inputs = " + str(int((tr-ts)*10**6//1)) + " us;" +
+      " Part 1 = " + str(int((t1-tr)*10**6//1)) + " us;" +
+      " Part 2 = " + str(int((t2-t1)*10**6//1)) + " us;" +
+      " Total time = " + str(int((t2-ts)*10**6//1)) + " us")
+# average van 1 run is ongeveer
+# kost 1300 us, 65000 us, 0 us, 66000 us
