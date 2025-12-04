@@ -67,4 +67,4 @@ print("Timing: Inputs = " + str(int((tr-ts)*10**6//1)) + " us;" +
       " Part 2 = " + str(int((t2-t1)*10**3//1)) + " ms;" +
       " Total time = " + str(int((t2-ts)*10**3//1)) + " ms")
 # average van 1 run is ongeveer
-# kost 1400 us, 65 ms, 6100 ms, 6200 ms
+# kost 1400 us, 65 ms, 4400 ms, 4500 ms
