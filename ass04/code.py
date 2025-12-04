@@ -47,14 +47,15 @@ numgrid =  numpy.pad(numpy.array([[int(x == "@") for x in gridline] for gridline
 numgrid_res = numpy.copy(numgrid)
 movablepapers2 = numpy.sum(numgrid)
 
-while (True):
+removed = True
+while (removed):
+    removed = False
     for i in range(1,len(numgrid)-1):
         for j in range(1,len(numgrid[0])-1):
             # we gebruiken numpy.sum omdat die 2d summed en dat is goed en mooi
-            numgrid_res[i][j] = numpy.sum(numgrid[i-1:i+2,j-1:j+2]*kernel) > 0
-    if numpy.sum(numgrid_res) == 0:
-        break
-    numgrid = numgrid ^ numgrid_res
+            if numpy.sum(numgrid[i-1:i+2,j-1:j+2]*kernel) > 0:
+                removed = True
+                numgrid[i][j] = 0
 
 movablepapers2 -= numpy.sum(numgrid)
 
