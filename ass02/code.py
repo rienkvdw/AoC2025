@@ -1,9 +1,5 @@
 # assignment 2
-import math
-import copy
 import time
-import numpy
-import itertools
 import re
 
 ts = time.time()

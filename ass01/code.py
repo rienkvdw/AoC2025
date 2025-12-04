@@ -1,9 +1,6 @@
 # assignment 1
 import math
-import copy
 import time
-import numpy
-import itertools
 import re
 
 # uitlezen text bestandje

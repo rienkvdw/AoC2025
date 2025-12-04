@@ -1,10 +1,5 @@
-# assignment 2
-import math
-import copy
+# assignment 3
 import time
-import numpy
-import itertools
-import re
 
 ts = time.time()
 # uitlezen text bestandje
