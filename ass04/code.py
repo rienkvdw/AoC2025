@@ -1,21 +1,6 @@
 # assignment 4
-import math
-import copy
 import time
 import numpy
-import itertools
-import re
-
-# coordinate class van vorig jaar, hopelijk is het nuttig
-class Coordinate:
-    def __init__(self, coords):
-        self.x = coords[0]
-        self.y = coords[1]
-        self = (self.x,self.y)
-    def __str__(self):
-        return str((self.x,self.y))
-    def __repr__(self):
-        return str((self.x,self.y))
 
 ts = time.time()
 # uitlezen text bestandje
