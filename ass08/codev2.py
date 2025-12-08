@@ -78,10 +78,8 @@ while(check != len(junctions)):
         junctions[id].con = junctions[junction1_id].con
     check = len(junctions[junction1_id].con)
     k += 1
-print(junctions[junction1_id].pos)
-print(junctions[junction2_id].pos)
 
-print("The result for part 2 is " + str(junctions[junction1_id].pos.x*junctions[junction2_id].pos.x)) # correcte waarde is 
+print("The result for part 2 is " + str(junctions[junction1_id].pos.x*junctions[junction2_id].pos.x)) # correcte waarde is 27338688
 t2 = time.time()
 
 print("Timing: Inputs = " + str(int((tr-ts)*10**6//1)) + " us;" +
@@ -89,4 +87,4 @@ print("Timing: Inputs = " + str(int((tr-ts)*10**6//1)) + " us;" +
       " Part 2 = " + str(int((t2-t1)*10**3//1)) + " ms;" +
       " Total time = " + str(int((t2-ts)*10**3//1)) + " ms")
 # average van 1 run is ongeveer
-# kost 160 us, 1000 ms, 1200 ms, 2200 ms
+# kost 150 us, 900 ms, 1000 ms, 1900 ms
