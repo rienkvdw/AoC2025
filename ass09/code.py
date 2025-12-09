@@ -26,7 +26,7 @@ def rectangleArea(coordinate1, coordinate2):
 
 ts = time.time()
 # uitlezen text bestandje
-with open('ass09/input_test.txt') as inputfile:    # input lezen en splitten in lines
+with open('ass09/input.txt') as inputfile:    # input lezen en splitten in lines
     inputstring = inputfile.read()
     lines = inputstring.split()
 
@@ -46,8 +46,8 @@ for i in range(len(tiles)):
         rectangle.append(rectangleArea(tiles[i].pos,tiles[j].pos))
     rectangles.append(rectangle)
 
-largest_rectangle = max([max(line) for line in rectangles])
-print("The value for part 1 is " + str(largest_rectangle) + " which is " + str(largest_rectangle == 4750297200)) # correcte waarde is 4750297200
+largest_rectangle1 = max([max(line) for line in rectangles])
+print("The value for part 1 is " + str(largest_rectangle1) + " which is " + str(largest_rectangle1 == 4750297200)) # correcte waarde is 4750297200
 t1 = time.time()
 
 # part 2
@@ -67,24 +67,49 @@ for tile in tiles:
     tile.posmap.x = xmap[tile.pos.x]
     tile.posmap.y = ymap[tile.pos.y]
 
-mapped_grid = [[0 for _ in range(len(xmap))] for _ in range(len(ymap))]
-for i in range(len(tiles)):
-    id1 = (i+1)%len(tiles)
-    if tiles[id1].posmap.x > tiles[i].posmap.x:
-        for j in range(tiles[i].posmap.x, tiles[id1].posmap.x):
-            mapped_grid[tiles[i].posmap.y][j] = 1
-    elif tiles[id1].posmap.x < tiles[i].posmap.x:
-        for j in range(tiles[i].posmap.x, tiles[id1].posmap.x, -1):
-            mapped_grid[tiles[i].posmap.y][j] = 1
-    elif tiles[id1].posmap.y > tiles[i].posmap.y:
-        for j in range(tiles[i].posmap.y, tiles[id1].posmap.y):
-            mapped_grid[j][tiles[i].posmap.x] = 1
-    else:
-        for j in range(tiles[i].posmap.y, tiles[id1].posmap.y, -1):
-            mapped_grid[j][tiles[i].posmap.x] = 1
+# mapped_grid = [[0 for _ in range(len(xmap))] for _ in range(len(ymap))]
+# for i in range(len(tiles)):
+#     id1 = (i+1)%len(tiles)
+#     if tiles[id1].posmap.x > tiles[i].posmap.x:
+#         for j in range(tiles[i].posmap.x, tiles[id1].posmap.x):
+#             mapped_grid[tiles[i].posmap.y][j] = 1
+#     elif tiles[id1].posmap.x < tiles[i].posmap.x:
+#         for j in range(tiles[i].posmap.x, tiles[id1].posmap.x, -1):
+#             mapped_grid[tiles[i].posmap.y][j] = 1
+#     elif tiles[id1].posmap.y > tiles[i].posmap.y:
+#         for j in range(tiles[i].posmap.y, tiles[id1].posmap.y):
+#             mapped_grid[j][tiles[i].posmap.x] = 1
+#     else:
+#         for j in range(tiles[i].posmap.y, tiles[id1].posmap.y, -1):
+#             mapped_grid[j][tiles[i].posmap.x] = 1
 
+areas = []
+for i in range(len(tiles)-1):
+    for j in range(i+1,len(tiles)):
+        areas.append((rectangleArea(tiles[i].pos,tiles[j].pos),i,j))
+areas_sorted = sorted(areas, key = lambda x : x[0])
+for a in range(len(areas_sorted)-1, -1, -1):
+    xmin = min([tiles[areas_sorted[a][1]].pos.x,tiles[areas_sorted[a][2]].pos.x])
+    xmax = max([tiles[areas_sorted[a][1]].pos.x,tiles[areas_sorted[a][2]].pos.x])
+    ymin = min([tiles[areas_sorted[a][1]].pos.y,tiles[areas_sorted[a][2]].pos.y])
+    ymax = max([tiles[areas_sorted[a][1]].pos.y,tiles[areas_sorted[a][2]].pos.y])
 
-print("The total for part 2 is " + str("empty")) # correcte waarde is 
+    cross = False
+    for i in range(len(tiles)):
+        id1 = (i+1)%len(tiles)
+        if (tiles[i].pos.x == tiles[id1].pos.x) and not (tiles[i].pos.x <= xmin or tiles[i].pos.x >= xmax):
+            if not ((tiles[i].pos.y <= ymin and tiles[id1].pos.y <= ymin) or (tiles[i].pos.y >= ymax and tiles[id1].pos.y >= ymax)):
+                cross = True
+                break
+        elif (tiles[i].pos.y == tiles[id1].pos.y) and not (tiles[i].pos.y <= ymin or tiles[i].pos.y >= ymax):
+            if not ((tiles[i].pos.x <= xmin and tiles[id1].pos.x <= xmin) or (tiles[i].pos.x >= xmax and tiles[id1].pos.x >= xmax)):
+                cross = True
+                break
+    if not cross:
+        largest_rectangle2 = areas_sorted[a][0]
+        break
+
+print("The value for part 2 is " + str(largest_rectangle2) + " which is " + str(largest_rectangle2 == 1578115935)) # correcte waarde is 1578115935
 t2 = time.time()
 
 print("Timing: Inputs = " + str(int((tr-ts)*10**6//1)) + " us;" +
