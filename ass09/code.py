@@ -26,7 +26,7 @@ def rectangleArea(coordinate1, coordinate2):
 
 ts = time.time()
 # uitlezen text bestandje
-with open('ass09/input.txt') as inputfile:    # input lezen en splitten in lines
+with open('ass09/input_test.txt') as inputfile:    # input lezen en splitten in lines
     inputstring = inputfile.read()
     lines = inputstring.split()
 
@@ -46,8 +46,8 @@ for i in range(len(tiles)):
         rectangle.append(rectangleArea(tiles[i].pos,tiles[j].pos))
     rectangles.append(rectangle)
 
-largestRectangle = max([max(line) for line in rectangles])
-print("The value for part 1 is " + str(largestRectangle) + " which is " + str(largestRectangle == 4750297200)) # correcte waarde is 4750297200
+largest_rectangle = max([max(line) for line in rectangles])
+print("The value for part 1 is " + str(largest_rectangle) + " which is " + str(largest_rectangle == 4750297200)) # correcte waarde is 4750297200
 t1 = time.time()
 
 # part 2
@@ -66,6 +66,22 @@ ymap = {ycoord: idmap for idmap, ycoord in enumerate(sorted(ys))}
 for tile in tiles:
     tile.posmap.x = xmap[tile.pos.x]
     tile.posmap.y = ymap[tile.pos.y]
+
+mapped_grid = [[0 for _ in range(len(xmap))] for _ in range(len(ymap))]
+for i in range(len(tiles)):
+    id1 = (i+1)%len(tiles)
+    if tiles[id1].posmap.x > tiles[i].posmap.x:
+        for j in range(tiles[i].posmap.x, tiles[id1].posmap.x):
+            mapped_grid[tiles[i].posmap.y][j] = 1
+    elif tiles[id1].posmap.x < tiles[i].posmap.x:
+        for j in range(tiles[i].posmap.x, tiles[id1].posmap.x, -1):
+            mapped_grid[tiles[i].posmap.y][j] = 1
+    elif tiles[id1].posmap.y > tiles[i].posmap.y:
+        for j in range(tiles[i].posmap.y, tiles[id1].posmap.y):
+            mapped_grid[j][tiles[i].posmap.x] = 1
+    else:
+        for j in range(tiles[i].posmap.y, tiles[id1].posmap.y, -1):
+            mapped_grid[j][tiles[i].posmap.x] = 1
 
 
 print("The total for part 2 is " + str("empty")) # correcte waarde is 
