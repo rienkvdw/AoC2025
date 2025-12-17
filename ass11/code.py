@@ -5,7 +5,7 @@ ts = time.time()
 
 
 # uitlezen text bestandje
-with open('ass00/input.txt') as inputfile:    # input lezen en splitten in lines
+with open('ass11/input_test.txt') as inputfile:    # input lezen en splitten in lines
     inputstring = inputfile.read()
 
 tr = time.time()
