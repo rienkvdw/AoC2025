@@ -22,7 +22,9 @@ class Region:
         self.y = int(xy[1][0:-1])
         self.size = (self.x, self.y)
         self.area = self.x*self.y
-        self.quantity = [int(c) for c in splitline[1:]]
+        self.quantities = [int(c) for c in splitline[1:]]
+        self.quantity = sum(self.quantities)
+        self.tracker = 0.5
     def __str__(self):
         return ((self.size, self.quantity))
     def __repr__(self):
@@ -30,7 +32,7 @@ class Region:
 
 ts = time.time()
 # uitlezen text bestandje
-with open('ass12/input_test.txt') as inputfile:    # input lezen en splitten in lines
+with open('ass12/input.txt') as inputfile:    # input lezen en splitten in lines
     inputstring = inputfile.read()
     lines = inputstring.split('\n')
     lines = [line for line in lines if line.strip()]
@@ -43,26 +45,44 @@ with open('ass12/input_test.txt') as inputfile:    # input lezen en splitten in 
         elif lines[i][0].isdigit():
             regions.append(Region(lines[i].split()))
 
-print(present)
-print()
-print(regions)
-
 tr = time.time()
 # part 1
+print("The total amount of regions is " + str(len(regions)))
+print('\n' + "First checking all regions where total present area is greater than region area, which are all not possible")
+for region in regions:
+    required_area = 0
+    for i in range(len(presents)):
+        required_area += region.quantities[i]*presents[i].area
+    if required_area > region.area:
+        region.tracker = 0
 
-print("The total for part 1 is " + str("empty")) # correcte waarde is 
+print("After removing all regions which are definitely not possible there are " + str(sum([1  for region in regions if region.tracker == 0.5])) + " left to check")
+print('\n' + "Next checking all regions where all presents get their own 3x3 area")
+for region in regions:
+    if region.tracker != 0:
+        x_reduced = region.x // 3
+        y_reduced = region.y // 3
+        allowed_quantity = x_reduced * y_reduced
+        if allowed_quantity >= region.quantity:
+            region.tracker = 1
+
+print("After removing all regions which are definitely possible there are " + str(sum([1  for region in regions if region.tracker == 0.5])) + " left to check")
+
+if sum([1 for region in regions if region.tracker == 0.5]) == 0:
+    print('\n' + "All regions checked and classified")
+    print("The total for part 1 is " + str(sum([region.tracker for region in regions]))) # correcte waarde is 550
+else:
+    print('\n' + "All regions checked, but not all could be classified")
+    print("The total for checked regions is " + str(sum([region.tracker for region in regions if region.tracker != 0.5])))
 t1 = time.time()
 # part 2
 
-
-
-print("The total for part 2 is " + str("empty")) # correcte waarde is 
+print('\n' + "Er is geen part 2 :)")
 t2 = time.time()
 
 print("Timing: Inputs = " + str(int((tr-ts)*10**6//1)) + " us;" +
       " Part 1 = " + str(int((t1-tr)*10**6//1)) + " us;" +
-      " Part 2 = " + str(int((t2-t1)*10**6//1)) + " us;" +
       " Total time = " + str(int((t2-ts)*10**6//1)) + " us")
 
-# average van  run is ongeveer
-# kost  us,  us,  us, us
+# average van 5 run is ongeveer
+# kost 4700 us, 2500 us, 6500 us
